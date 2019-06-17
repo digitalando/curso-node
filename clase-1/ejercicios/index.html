@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="icon" sizes="32x32" type="image/png" href="img/favicon.png">
-  <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono&display=swap" rel="stylesheet">
+  <!-- <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono&display=swap" rel="stylesheet"> -->
   <link rel="stylesheet" href="css/styles.css">
   <title>Curso Node &rarr; Clase 1</title>
 </head>
@@ -104,7 +104,149 @@
     <hr>
 
     <h2>Ejercicio 3</h2>
-    
+    <p>Sería bueno poder llamar a nuestra función ultimoIndiceDe sin proporcionar el tercer argumento, y tenerlo por defecto para comenzar al final del array. Sería aún mejor si pudiéramos expresar esto con un valor de argumento predeterminado de ES6. ¿Podemos? ¿En qué ámbito se evalúan los argumentos por defecto? (Experimente para averiguarlo).</p>
+
+    <pre><code class="javascript">
+      function ultimoIndiceDe(arr, elt, inicio) {
+        for (let i = inicio - 1; i >= 0; i--)
+          if (arr[i] === elt) return i
+        return -1
+      }
+
+      console.log(ultimoIndiceDe([1, 2, 1, 2], 2))
+    </code></pre>
+
+    <h3>Resuelto</h3>
+    <pre><code class="javascript">
+      function ultimoIndiceDe(arr, elt, inicio = arr.length) {
+        for (let i = inicio - 1; i >= 0; i--)
+          if (arr[i] === elt) return i
+        return -1
+      }
+      console.log(ultimoIndiceDe([1, 2, 1, 2], 2))
+    </code></pre>
+
+    <hr>
+
+    <h2>Ejercicio 4</h2>
+    <p>La función detectarColision busca en un array de rectángulos y devuelve el primer rectángulo en el que se encuentra el punto dado. Use la desestructuración y una función de orden superior para hacer que este código sea más limpio. Es posible que desee utilizar el método de array find, que toma una función como argumento y devuelve el primer elemento del array (el elemento, no su índice) para el que la función devuelve verdadero.</p>
+
+    <pre><code class="javascript">
+      function detectarColision(objetos, punto) {
+          for (let i = 0; i < objetos.length; i++) {
+            let objeto = objetos[i]
+            if (punto.x >= objeto.x && punto.x <= objeto.x + objeto.width &&
+                punto.y >= objeto.y && punto.y <= objeto.y + objeto.alto)
+              return objeto
+          }
+        }
+
+        const misObjetos = [
+          {x:  10, y: 20, ancho: 30, alto: 30},
+          {x: -40, y: 20, ancho: 30, alto: 30},
+          {x:   0, y:  0, ancho: 10, alto:  5}
+        ]
+
+        console.log(detectarColision(misObjetos, {x: 4, y: 2}))
+      </code></pre>
+
+      <h3>Resuelto</h3>
+      <pre><code class="javascript">
+        function detectarColision(objetos, punto) {
+          return objetos.find(objeto => punto.x >= objeto.x && punto.x <= objeto.x + objeto.ancho &&
+            punto.y >= objeto.y && punto.y <= objeto.y + objeto.alto);
+        }
+
+        const misObjetos = [
+          {x:  10, y: 20, ancho: 30, alto: 30},
+          {x: -40, y: 20, ancho: 30, alto: 30},
+          {x:   0, y:  0, ancho: 10, alto:  5}
+        ]
+
+        console.log(detectarColision(misObjetos, {x: 4, y: 2}))
+      </code></pre>
+
+      <hr>
+
+      <h2>Ejercicio 5</h2>
+      <p>Simplifique estas tres funciones utilizando la sintaxis de spread. El primero, remplazar, reemplaza parte de un array con elementos de otro array. El segundo, copiarYRemplazar, hace lo mismo, pero crea un nuevo array en lugar de modificar su argumento. El tercero se utiliza para registrar los avistamientos de un observador de aves. Primero toma una marca de tiempo (por ejemplo, una fecha) y luego cualquier número de cadenas que nombren pájaros. A continuación, almacena estos en el array pajarosVistos.</p>
+
+      <pre><code class="javascript">
+        function remplazar(array, desde, hasta, elementos) {
+          array.splice.apply(array, [desde, hasta - desde].concat(elementos))
+        }
+
+        let testArray = [1, 2, 100, 100, 6]
+        remplazar(testArray, 2, 4, [3, 4, 5])
+        console.log(testArray)
+
+        function copiarYRemplazar(array, desde, hasta, elementos) {
+          return array.slice(0, desde).concat(elementos).concat(array.slice(hasta))
+        }
+
+        console.log(copiarYRemplazar([1, 2, 100, 200, 6], 2, 4, [3, 4, 5]))
+
+        let pajarosVistos = []
+        function grabarPajaros(tiempo) {
+          pajarosVistos.push({tiempo, pajaros: Array.prototype.slice.call(arguments, 1)})
+        }
+
+        grabarPajaros(new Date, "sparrow", "robin", "pterodactyl")
+        console.log(pajarosVistos)
+      </code></pre>
+
+      <hr>
+
+      <h3>Resuelto</h3>
+      <pre><code class="javascript">
+        function remplazar(array, desde, hasta, elementos) {
+          array.splice(desde, hasta - desde, ...elementos);
+        }
+
+        let testArray = [1, 2, 100, 100, 6]
+        remplazar(testArray, 2, 4, [3, 4, 5])
+        console.log(testArray)
+
+        function copiarYRemplazar(array, desde, hasta, elementos) {
+          return [...array.slice(0, desde), ...elementos, ...array.slice(hasta)];
+        }
+
+        console.log(copiarYRemplazar([1, 2, 100, 200, 6], 2, 4, [3, 4, 5]))
+
+        let pajarosVistos = []
+        function grabarPajaros(tiempo, ...pajaros) {
+          pajarosVistos.push({tiempo, pajaros: pajaros})
+        }
+
+        grabarPajaros(new Date, "sparrow", "robin", "pterodactyl")
+        console.log(pajarosVistos)
+
+      </code></pre>
+
+      <hr>
+
+      <h2>Ejercicio 6</h2>
+      <p>
+        Dados los datos en el código de inicio, use los templates strings para producir la siguiente cadena. Asegúrese de que los números, los nombres y el nombre del equipo realmente provengan de los datos.
+
+        <ul>
+          <li>Hay 4 personas en el equipo de herramientas.</li>
+          <li>Sus nombres son Sofía, Ricky, Martin, Gonzalo.</li>
+          <li>2 de ellos tienen un papel de alto nivel.</li>
+        </ul>
+      </p>
+
+      <pre><code class="javascript">
+        const nombreEquipo = "tooling"
+        const gente = [{nombre: "Sofía", rol: "senior"},
+                        {nombre: "Ricky", rol: "junior"},
+                        {nombre: "Martin", rol: "senior"},
+                        {nombre: "Gonzalo", rol: "junior"}]
+
+        let mensaje = TU_CODIGO_AQUI
+
+        console.log(mensaje)
+      </code></pre>
   </div>
 
   <link rel="stylesheet" href="css/atom-one-dark-reasonable.css">
