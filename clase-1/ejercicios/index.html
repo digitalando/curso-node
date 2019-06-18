@@ -31,11 +31,11 @@
     <h3>Resuelto</h3>
     <pre><code class="javascript">
       const inventario = [
-        {tipo:   "maquina", valor: 5000},
-        {tipo:   "maquina", valor:  650},
-        {tipo:      "silla", valor:   10},
-        {tipo: "sillon", valor: 1200},
-        {tipo:   "maquina", valor:   77}
+        {tipo: "maquina", valor: 5000},
+        {tipo: "maquina", valor:  650},
+        {tipo: "silla",   valor:   10},
+        {tipo: "sillon",  valor: 1200},
+        {tipo: "maquina", valor:   77}
       ]
 
       let valorTotalMaquina = inventario.filter(item => item.tipo == "maquina").reduce((total, item) => total + item.valor, 0);
@@ -101,6 +101,29 @@
       console.log("array:", ordenado.contenido);
     </code></pre>
 
+    <h3>Alternativa</h3>
+    <pre><code class="javascript">
+      class orderedArray {
+        constructor(compare) {
+          this.compare = compare;
+          this.content = [];
+        }
+        orderedPush(element) {
+          this.content.push(element);
+          this.content.sort(this.compare);
+
+        }
+      }
+
+      var ordered = new orderedArray((a, b) => a - b );
+      ordered.orderedPush(5);
+      ordered.orderedPush(1);
+      ordered.orderedPush(2);
+      ordered.orderedPush(4);
+      ordered.orderedPush(3);
+      console.log("array:", ordered.content);
+    </code></pre>
+
     <hr>
 
     <h2>Ejercicio 3</h2>
@@ -126,6 +149,10 @@
       console.log(ultimoIndiceDe([1, 2, 1, 2], 2))
     </code></pre>
 
+    <h3>Alternativa</h3>
+    <pre><code class="javascript">
+      console.log([1, 2, 1, 2].lastIndexOf(2));
+    </code></pre>
     <hr>
 
     <h2>Ejercicio 4</h2>
@@ -246,6 +273,56 @@
         let mensaje = TU_CODIGO_AQUI
 
         console.log(mensaje)
+      </code></pre>
+
+      <h3>Resuelto</h3>
+      <pre><code class="javascript">
+        consoleTitle('Ejercicio 6');
+
+        const nombreEquipo = "tooling";
+        const gente = [
+          {nombre: "Sofía", rol: "senior"},
+          {nombre: "Ricky", rol: "junior"},
+          {nombre: "Martin", rol: "senior"},
+          {nombre: "Gonzalo", rol: "junior"}
+        ];
+
+        let nombres = '';
+        let cantAltoNivel = 0;
+        for (var {nombre: n, rol: r} of gente) {
+          nombres += `${n}, `;
+          r == "senior" && cantAltoNivel++;
+        }
+
+        let mensaje = `Hay ${gente.length} miembros en el equipo de ${nombreEquipo}, sus nombres son ${nombres} ${cantAltoNivel} de ellos tienen un papel de alto nivel.`;
+
+        console.log(mensaje)
+      </code></pre>
+
+      <hr>
+
+      <h2>Ejercicio 6</h2>
+      <p>
+        Escriba una función html que se pueda usar como una etiqueta de cadena de plantilla y produzca una cadena en la que todas las piezas interpoladas se escapan como HTML. Utilice la función de escapeHTML provista para hacer el escape. Recuerde que una función de etiqueta (tag function) obtiene un array de strings intermedias como primer argumento y luego los valores interpolados como argumentos adicionales.
+
+        <ul>
+          <li>TAG FUNCTION saludo`Soy ${nombre}. Tengo ${edad} años.`</li>
+          <li>FUNCIÓN EQUIVALENTE saludo(["Soy ", ". Tengo ", " años."], nombre, edad)</li>
+        </ul>
+      </p>
+
+      <pre><code class="javascript">
+        function html(...) {
+          // Tu código aquí
+        }
+
+        const debeEscaparse = '<>&"'
+        console.log(html`Deberías de escapar los caracteres ${debeEscaparse.length} “${debeEscaparse}” en HTML`)
+
+        function escaparHTML(string) {
+          return String(string).replace(/"/g, "&quot;").replace(/</g, "&lt;")
+          	.replace(/>/g, "&gt;").replace(/&/g, "&amp;")
+        }
       </code></pre>
   </div>
 
