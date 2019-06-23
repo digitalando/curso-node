@@ -222,8 +222,6 @@
         console.log(pajarosVistos)
       </code></pre>
 
-      <hr>
-
       <h3>Resuelto</h3>
       <pre><code class="javascript">
         function remplazar(array, desde, hasta, elementos) {
@@ -301,7 +299,7 @@
 
       <hr>
 
-      <h2>Ejercicio 6</h2>
+      <h2>Ejercicio 7</h2>
       <p>
         Escriba una función html que se pueda usar como una etiqueta de cadena de plantilla y produzca una cadena en la que todas las piezas interpoladas se escapan como HTML. Utilice la función de escapeHTML provista para hacer el escape. Recuerde que una función de etiqueta (tag function) obtiene un array de strings intermedias como primer argumento y luego los valores interpolados como argumentos adicionales.
 
@@ -324,6 +322,86 @@
           	.replace(/>/g, "&gt;").replace(/&/g, "&amp;")
         }
       </code></pre>
+
+      <h3>Resuelto</h3>
+      <pre><code class="javascript">
+        function html(strings, ...values) {
+          return strings.reduce((prev, next, i) => `${prev}${next}${escaparHTML(values[i] || '')}`, '');
+        }
+
+        const debeEscaparse = '<>&"'
+        console.log(html`Deberías de escapar los ${debeEscaparse.length} caracteres: “${debeEscaparse}” en HTML`)
+
+        function escaparHTML(string) {
+          return String(string).replace(/"/g, "&quot;").replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;").replace(/&/g, "&amp;")
+        }
+      </code></pre>
+
+      <hr>
+
+      <h2>Ejercicio 8</h2>
+      <p>En la página en el dominio https://digitalhouse.com/, esta contiene la palabra "Co-learning". Dada esta implementación de devolución de Promesa de una solicitud de obtención HTTP, escribir un "rastreador" simple basado en la promesa que primero obtenga la primera página. Escanear el contenido de esta página en busca de la palabra "Co-learning" y devolver la frase entera.</p>
+      <pre><code class="javascript">
+        function get(url) {
+          return new Promise((succeed, fail) => {
+            var req = new XMLHttpRequest()
+            req.open("GET", url, true)
+            req.addEventListener("load", () => {
+              if (req.status < 400)
+                succeed(req.responseText)
+              else
+                fail(new Error("Request failed: " + req.statusText))
+            })
+            req.addEventListener("error", () => {
+              fail(new Error("Network error"))
+            })
+            req.send(null)
+          })
+        }
+      </code></pre>
+
+      <h3>Resuelto</h3>
+      <pre><code class="javascript">
+
+      <h3>Alternativa</h3>
+      <p>
+        Ejecutándose sobre la página actual en lugar de hacer un request.<br>
+        <a href="https://stackoverflow.com/a/29289196">Referencia: Stack Overflow.</a>
+      </p>
+      <pre><code class="javascript">
+        var xpath = "//p[contains(text(),'Co-learning')]";
+        var matchingElement = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+      </code></pre>
+
+      <hr>
+
+      <h2>Ejercicio 9</h2>
+      <p></p>
+      <pre><code class="javascript">
+
+      </code></pre>
+
+      <h3>Resuelto</h3>
+      <pre><code class="javascript">
+
+      </code></pre>
+
+      <hr>
+
+      <h2>Ejercicio 10</h2>
+      <p></p>
+      <pre><code class="javascript">
+
+      </code></pre>
+
+      <h3>Resuelto</h3>
+      <pre><code class="javascript">
+
+      </code></pre>
+
+      <hr>
+
   </div>
 
   <link rel="stylesheet" href="css/atom-one-dark-reasonable.css">

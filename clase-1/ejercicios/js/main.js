@@ -297,5 +297,19 @@ function get(url) {
   })
 }
 
+function searchElementByText(html) {
+  let xpath = "//a[text()='SearchingText']";
+  return html.evaluate(xpath, html, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+}
+
+
 // Error CORS
-//get('https://digitalhouse.com/');
+// get('http://digitalhouse.com');
+get('http://localhost/curso-node/clase-1/ejercicios/digital-house.html')
+  .then(page => searchElementByText(page));
+
+
+  // Brendan Eich (JS Creator)
+  // Break the language into orthogonal primitives that work well together.
+
+  // Investigar WEB ASM
