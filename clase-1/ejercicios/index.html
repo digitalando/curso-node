@@ -363,6 +363,7 @@
 
       <h3>Resuelto</h3>
       <pre><code class="javascript">
+      </code></pre>
 
       <h3>Alternativa</h3>
       <p>
@@ -377,28 +378,58 @@
       <hr>
 
       <h2>Ejercicio 9</h2>
-      <p></p>
+      <p>Escribe una clase llamada Punto, que representa un punto en el espacio bidimensional. Un punto tiene propiedades x e y, dados como argumentos a su constructor. También tiene un solo método más, que toma otro punto y devuelve la suma de los dos puntos, es decir, un nuevo punto cuya x es la suma de las propiedades x de los dos puntos originales, y cuya y es la suma de sus y propiedades.</p>
       <pre><code class="javascript">
+        // Tu código acá
 
+        console.log(new Punto(1, 2).sumar(new Punto(2, 1)))
+        // → Punto{x: 3, y: 3}
       </code></pre>
 
       <h3>Resuelto</h3>
       <pre><code class="javascript">
+        class Punto {
+          constructor (posX, posY) {
+            this.posX = posX;
+            this.posY = posY;
+          }
+          sumar (punto) {
+            return new Punto(punto.posX + this.posX, punto.posX + this.posX);
+          }
+        }
 
+        console.log(new Punto(1, 2).sumar(new Punto(2, 1)))
       </code></pre>
 
       <hr>
 
       <h2>Ejercicio 10</h2>
-      <p></p>
+      <p>Reescriba estos dos tipos de objetos para usar la palabra clave de clase, en lugar de la manipulación directa de prototipos. Orador es un tipo simple que expone un método de habla que, cuando se le llama, registra el texto dado junto con el nombre del orador. Gritador es un subtipo de Orador que grita su texto y lo convierte en mayúsculas.</p>
       <pre><code class="javascript">
 
       </code></pre>
 
       <h3>Resuelto</h3>
       <pre><code class="javascript">
+        function Orador(nombre, verbo) {
+          this.nombre = nombre
+          this.verbo = verbo || "dice"
+        }
+        Orador.prototype.hablar = function(texto) {
+          console.log(this.nombre + " " + this.verbo + " '" + texto + "'")
+        }
 
+        function Gritador(nombre) {
+          Orador.llamar(this, nombre, "grita")
+        }
+        Gritador.prototype = Object.create(Orador.prototype)
+        Gritador.prototype.hablar = function(texto) {
+          Orador.prototype.hablar.llamar(this, texto.toUpperCase())
+        }
+
+        new Gritador("Dr. Bocagrande").hablar("hola, que tal?")
       </code></pre>
+
 
       <hr>
 

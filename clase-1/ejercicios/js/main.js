@@ -297,19 +297,84 @@ function get(url) {
   })
 }
 
-function searchElementByText(html) {
-  let xpath = "//a[text()='SearchingText']";
-  return html.evaluate(xpath, html, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+function searchElementByText(html, text) {
+  return html.indexOf(text) > -1;
 }
-
 
 // Error CORS
 // get('http://digitalhouse.com');
 get('http://localhost/curso-node/clase-1/ejercicios/digital-house.html')
-  .then(page => searchElementByText(page));
+  .then(page => searchElementByText(page, "Co-learning"));
 
 
-  // Brendan Eich (JS Creator)
-  // Break the language into orthogonal primitives that work well together.
+// XPath
+// https://developer.mozilla.org/es/docs/Web/JavaScript/Introduction_to_using_XPath_in_JavaScript
+// ---
+// La interfaz principal a usar con XPath es la función evaluate del objeto document.
 
-  // Investigar WEB ASM
+// El siguiente código permite buscar en la misma página usando el elemento
+// document. No funciona cuando se trae un html con la promesa de más arriba.
+
+// https://stackoverflow.com/a/29289196
+// var xpath = "//p[contains(text(),'Co-learning')]";
+// var matchingElement = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+
+
+// Ejercicio 9
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// Escribe una clase llamada Punto, que representa un punto en el espacio bidimensional. Un punto tiene propiedades x e y, dados como argumentos a su constructor. También tiene un solo método más, que toma otro punto y devuelve la suma de los dos puntos, es decir, un nuevo punto cuya x es la suma de las propiedades x de los dos puntos originales, y cuya y es la suma de sus y propiedades.
+
+consoleTitle('Ejercicio 9');
+
+class Punto {
+  constructor (posX, posY) {
+    this.posX = posX;
+    this.posY = posY;
+  }
+  sumar (punto) {
+    return new Punto(punto.posX + this.posX, punto.posX + this.posX);
+  }
+}
+
+console.log(new Punto(1, 2).sumar(new Punto(2, 1)))
+
+// Ejercicio 10
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+consoleTitle('Ejercicio 10');
+
+// https://developer.mozilla.org/es/docs/Learn/JavaScript/Objects/Inheritance
+// https://javascript.info/class-inheritance
+
+class Orador {
+  constructor(nombre, verbo = "dice") {
+    this.nombre = nombre;
+    this.verbo = verbo;
+  }
+  hablar (texto) {
+    console.log(`${this.nombre} ${this.verbo} "${texto}"`);
+  }
+}
+
+
+class Gritador extends Orador {
+  constructor(nombre) {
+    super(nombre, "grita");
+  }
+
+  hablar (texto) {
+    console.log(`${this.nombre} ${this.verbo} "${texto.toUpperCase()}"`);
+  }
+}
+
+new Gritador("Dr. Bocagrande").hablar("¡hola!, ¿que tal?")
+
+
+// Notas y pendientes
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// Brendan Eich (JS Creator)
+// Break the language into orthogonal primitives that work well together.
+
+// Investigar WEB ASM
